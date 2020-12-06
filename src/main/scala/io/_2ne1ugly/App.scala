@@ -10,7 +10,7 @@ object App {
       cls := "flex h-screen",
       div(
         cls := "m-auto flex",
-        Item.values.map(ItemThumbnail.apply),
+        Item.values.sortBy(_.getClass.getSimpleName).map(ItemThumbnail.apply),
         div(
           "RIGHT"
         )
