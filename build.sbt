@@ -22,9 +22,10 @@ lazy val root = (project in file("."))
   .settings(
     scalaJSUseMainModuleInitializer := false,
     libraryDependencies ++= Seq(
-      "com.raquo"     %%% "laminar"   % "0.11.0",
-      "com.raquo"     %%% "airstream" % "0.11.1",
-      "org.typelevel" %%% "cats-core" % "2.1.1"
+      "com.raquo"     %%% "laminar"    % "0.11.0",
+      "com.raquo"     %%% "airstream"  % "0.11.1",
+      "org.typelevel" %%% "cats-core"  % "2.1.1",
+      "com.beachape"  %%% "enumeratum" % "1.6.1"
     ),
     scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) },
     scalaJSLinkerConfig ~= { _.withSourceMap(false) },

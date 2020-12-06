@@ -9,9 +9,10 @@ const {
 } = require('clean-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 const scalaOutputPath = './target/scala-2.13';
-const staticPath = './src/static';
+const staticPath = './src/main/resources';
 
 const devServerPort = 8080;
 
@@ -169,6 +170,13 @@ function common(variables, mode) {
             to: '[name].[ext]'
           }
         ]
+      }),
+      new ImageMinimizerPlugin({
+        minimizerOptions: {
+          plugins: [
+            ['pngquant', { optimizationLevel: 5 }],
+          ],
+        },
       })
     ]
   }
