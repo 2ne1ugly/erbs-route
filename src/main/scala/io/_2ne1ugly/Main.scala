@@ -10,6 +10,6 @@ object Main {
   @JSExportTopLevel("main")
   def main(): Unit = {
     val container = document.getElementById("app-container")
-    render(container, div("LOLEL"))
+    render(container, App())
   }
 }
