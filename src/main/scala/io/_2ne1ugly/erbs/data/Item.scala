@@ -1,7 +1,10 @@
 package io._2ne1ugly.erbs.data
 
 import cats.syntax.all._
+import com.raquo.domtypes.generic.Modifier
+import com.raquo.laminar.nodes.ReactiveHtmlElement
 import enumeratum._
+import org.scalajs.dom.html.Div
 
 sealed trait ItemRarity
 
@@ -11,15 +14,30 @@ object ItemRarity {
   final case object Rare      extends ItemRarity
   final case object Epic      extends ItemRarity
   final case object Legendary extends ItemRarity
+
+  implicit val ordering: Ordering[ItemRarity] = new Ordering[ItemRarity] {
+    def depth(rarity: ItemRarity): Int = rarity match {
+      case Common    => 1
+      case Uncommon  => 2
+      case Rare      => 3
+      case Epic      => 4
+      case Legendary => 5
+    }
+
+    override def compare(x: ItemRarity, y: ItemRarity): Int = depth(x) - depth(y)
+  }
+
 }
 
 sealed trait Item extends EnumEntry {
   import Item._
 
+  val rarity: ItemRarity
   val bundleCount: Int
   val maxStack: Int
   val recipe: Option[(Item, Item)]
   val imgSrc: String
+  def getDesc: String
 
   final lazy val baseRecipe: Map[Item, Int] = recipe match {
     case Some((item1, item2)) => item1.baseRecipe ++ item2.baseRecipe
@@ -65,6 +83,7 @@ sealed trait Weapon { this: Item =>
   final val maxStack: Int    = 1
   final val bundleCount: Int = 1
   val weaponType: WeaponType
+  def getDesc: String        = weaponType.getClass.getSimpleName
 }
 
 sealed trait ArmorType
@@ -81,6 +100,7 @@ sealed trait Armor { this: Item =>
   final val maxStack: Int    = 1
   final val bundleCount: Int = 1
   val armorType: ArmorType
+  def getDesc: String        = armorType.getClass.getSimpleName
 }
 
 sealed trait ConsumableType
@@ -117,6 +137,7 @@ sealed trait Consumable { this: Item =>
       5
   }
   val consumableType: ConsumableType
+  def getDesc: String             = consumableType.getClass.getSimpleName
 }
 
 sealed trait Special { this: Item =>
@@ -137,6 +158,7 @@ sealed trait Special { this: Item =>
     case ClangClatter =>
       5
   }
+  def getDesc: String = "Summon"
 }
 sealed trait Material { this: Item =>
   import Item._
@@ -154,6 +176,7 @@ sealed trait Material { this: Item =>
     case IronOre | HeatedOil | HeatedStone =>
       3
   }
+  def getDesc: String             = "Material"
 }
 
 object Item extends Enum[Item] {

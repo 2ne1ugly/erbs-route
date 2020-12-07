@@ -10,10 +10,19 @@ object App {
       cls := "flex h-screen",
       div(
         cls := "m-auto flex",
-        Item.values.sortBy(_.getClass.getSimpleName).map(ItemThumbnail.apply),
-        div(
-          "RIGHT"
-        )
+        renderItemGrid(Item.values.toList)
+      ),
+      div(
+        cls := "hover:text-white",
+        "HMM"
       )
+    )
+
+  def renderItemGrid(items: List[Item]) =
+    div(
+      cls := "grid grid-cols-3 gap-x-3 gap-y-2",
+      items.sortBy(_.rarity).map { item =>
+        ItemThumbnail(item)
+      }
     )
 }

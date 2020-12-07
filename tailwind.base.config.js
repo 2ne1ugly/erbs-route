@@ -6,6 +6,11 @@ module.exports = {
           'Roboto Condensed'
         ]
       },
+      variants: {
+        extend: {
+          display: ['hover'],
+        }
+      }
     }
   }
 }
