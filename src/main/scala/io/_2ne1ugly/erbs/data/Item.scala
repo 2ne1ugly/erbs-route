@@ -1,8 +1,6 @@
 package io._2ne1ugly.erbs.data
 
 import cats.syntax.all._
-import com.raquo.domtypes.generic.Modifier
-import com.raquo.laminar.nodes.ReactiveHtmlElement
 import enumeratum._
 import org.scalajs.dom.html.Div
 
@@ -26,7 +24,6 @@ object ItemRarity {
 
     override def compare(x: ItemRarity, y: ItemRarity): Int = depth(x) - depth(y)
   }
-
 }
 
 sealed trait Item extends EnumEntry {
@@ -54,7 +51,9 @@ sealed trait Item extends EnumEntry {
   }
 }
 
-sealed trait WeaponType
+sealed trait EquipType
+
+sealed trait WeaponType extends EquipType
 
 object WeaponType {
   final case object Dagger         extends WeaponType
@@ -86,20 +85,20 @@ sealed trait Weapon { this: Item =>
   def getDesc: String        = weaponType.getClass.getSimpleName
 }
 
-sealed trait ArmorType
+sealed trait ArmorType { this: EquipType => }
 
 object ArmorType {
-  final case object Chest     extends ArmorType
-  final case object Head      extends ArmorType
-  final case object Arm       extends ArmorType
-  final case object Leg       extends ArmorType
-  final case object Accessory extends ArmorType
+  final case object Chest     extends ArmorType with EquipType
+  final case object Head      extends ArmorType with EquipType
+  final case object Arm       extends ArmorType with EquipType
+  final case object Leg       extends ArmorType with EquipType
+  final case object Accessory extends ArmorType with EquipType
 }
 
 sealed trait Armor { this: Item =>
   final val maxStack: Int    = 1
   final val bundleCount: Int = 1
-  val armorType: ArmorType
+  val armorType: ArmorType with EquipType
   def getDesc: String        = armorType.getClass.getSimpleName
 }
 
@@ -653,7 +652,7 @@ object Item extends Enum[Item] {
     val weaponType: WeaponType       = WeaponType.SniperRifle
     val rarity: ItemRarity           = ItemRarity.Epic
     val recipe: Option[(Item, Item)] = (HarpoonGun, TelephotoCamera).some
-    val imgSrc: String               = "images/items/Intervention.png"
+    val imgSrc: String               = "images/items/인터벤션 (new).png"
   }
 
   final case object NTW20 extends Item with Weapon {
@@ -1826,899 +1825,899 @@ object Item extends Enum[Item] {
   }
 
   final case object Hairband extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Head
-    val rarity: ItemRarity           = ItemRarity.Common
-    val recipe: Option[(Item, Item)] = None
-    val imgSrc: String               = "images/items/Hairband.png"
+    val armorType: ArmorType with EquipType = ArmorType.Head
+    val rarity: ItemRarity                  = ItemRarity.Common
+    val recipe: Option[(Item, Item)]        = None
+    val imgSrc: String                      = "images/items/Hairband.png"
   }
 
   final case object Hat extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Head
-    val rarity: ItemRarity           = ItemRarity.Common
-    val recipe: Option[(Item, Item)] = None
-    val imgSrc: String               = "images/items/Hat.png"
+    val armorType: ArmorType with EquipType = ArmorType.Head
+    val rarity: ItemRarity                  = ItemRarity.Common
+    val recipe: Option[(Item, Item)]        = None
+    val imgSrc: String                      = "images/items/Hat.png"
   }
 
   final case object BikeHelmet extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Head
-    val rarity: ItemRarity           = ItemRarity.Common
-    val recipe: Option[(Item, Item)] = None
-    val imgSrc: String               = "images/items/Bike Helmet.png"
+    val armorType: ArmorType with EquipType = ArmorType.Head
+    val rarity: ItemRarity                  = ItemRarity.Common
+    val recipe: Option[(Item, Item)]        = None
+    val imgSrc: String                      = "images/items/Bike Helmet.png"
   }
 
   final case object Mask extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Head
-    val rarity: ItemRarity           = ItemRarity.Uncommon
-    val recipe: Option[(Item, Item)] = (Hairband, Feather).some
-    val imgSrc: String               = "images/items/Mask.png"
+    val armorType: ArmorType with EquipType = ArmorType.Head
+    val rarity: ItemRarity                  = ItemRarity.Uncommon
+    val recipe: Option[(Item, Item)]        = (Hairband, Feather).some
+    val imgSrc: String                      = "images/items/Mask.png"
   }
 
   final case object Circlet extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Head
-    val rarity: ItemRarity           = ItemRarity.Uncommon
-    val recipe: Option[(Item, Item)] = (Hairband, Branch).some
-    val imgSrc: String               = "images/items/Circlet.png"
+    val armorType: ArmorType with EquipType = ArmorType.Head
+    val rarity: ItemRarity                  = ItemRarity.Uncommon
+    val recipe: Option[(Item, Item)]        = (Hairband, Branch).some
+    val imgSrc: String                      = "images/items/Circlet.png"
   }
 
   final case object Beret extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Head
-    val rarity: ItemRarity           = ItemRarity.Uncommon
-    val recipe: Option[(Item, Item)] = (Hat, Scissors).some
-    val imgSrc: String               = "images/items/Beret.png"
+    val armorType: ArmorType with EquipType = ArmorType.Head
+    val rarity: ItemRarity                  = ItemRarity.Uncommon
+    val recipe: Option[(Item, Item)]        = (Hat, Scissors).some
+    val imgSrc: String                      = "images/items/Beret.png"
   }
 
   final case object ChainCoif extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Head
-    val rarity: ItemRarity           = ItemRarity.Uncommon
-    val recipe: Option[(Item, Item)] = (Hat, SteelChain).some
-    val imgSrc: String               = "images/items/Chain Coif.png"
+    val armorType: ArmorType with EquipType = ArmorType.Head
+    val rarity: ItemRarity                  = ItemRarity.Uncommon
+    val recipe: Option[(Item, Item)]        = (Hat, SteelChain).some
+    val imgSrc: String                      = "images/items/Chain Coif.png"
   }
 
   final case object SafetyHelmet extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Head
-    val rarity: ItemRarity           = ItemRarity.Uncommon
-    val recipe: Option[(Item, Item)] = (BikeHelmet, Stone).some
-    val imgSrc: String               = "images/items/Safety Helmet.png"
+    val armorType: ArmorType with EquipType = ArmorType.Head
+    val rarity: ItemRarity                  = ItemRarity.Uncommon
+    val recipe: Option[(Item, Item)]        = (BikeHelmet, Stone).some
+    val imgSrc: String                      = "images/items/Safety Helmet.png"
   }
 
   final case object BallisticHelmet extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Head
-    val rarity: ItemRarity           = ItemRarity.Rare
-    val recipe: Option[(Item, Item)] = (Beret, BikeHelmet).some
-    val imgSrc: String               = "images/items/Ballistic Helmet.png"
+    val armorType: ArmorType with EquipType = ArmorType.Head
+    val rarity: ItemRarity                  = ItemRarity.Rare
+    val recipe: Option[(Item, Item)]        = (Beret, BikeHelmet).some
+    val imgSrc: String                      = "images/items/Ballistic Helmet.png"
   }
 
   final case object FireHelmet extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Head
-    val rarity: ItemRarity           = ItemRarity.Rare
-    val recipe: Option[(Item, Item)] = (SafetyHelmet, Water).some
-    val imgSrc: String               = "images/items/Fire Helmet.png"
+    val armorType: ArmorType with EquipType = ArmorType.Head
+    val rarity: ItemRarity                  = ItemRarity.Rare
+    val recipe: Option[(Item, Item)]        = (SafetyHelmet, Water).some
+    val imgSrc: String                      = "images/items/Fire Helmet.png"
   }
 
   final case object Tiara extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Head
-    val rarity: ItemRarity           = ItemRarity.Rare
-    val recipe: Option[(Item, Item)] = (Circlet, StallionMedal).some
-    val imgSrc: String               = "images/items/Tiara.png"
+    val armorType: ArmorType with EquipType = ArmorType.Head
+    val rarity: ItemRarity                  = ItemRarity.Rare
+    val recipe: Option[(Item, Item)]        = (Circlet, StallionMedal).some
+    val imgSrc: String                      = "images/items/Tiara.png"
   }
 
   final case object Crown extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Head
-    val rarity: ItemRarity           = ItemRarity.Rare
-    val recipe: Option[(Item, Item)] = (Circlet, Gold).some
-    val imgSrc: String               = "images/items/Crown.png"
+    val armorType: ArmorType with EquipType = ArmorType.Head
+    val rarity: ItemRarity                  = ItemRarity.Rare
+    val recipe: Option[(Item, Item)]        = (Circlet, Gold).some
+    val imgSrc: String                      = "images/items/Crown.png"
   }
 
   final case object CloseHelm extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Head
-    val rarity: ItemRarity           = ItemRarity.Rare
-    val recipe: Option[(Item, Item)] = (ChainCoif, Mask).some
-    val imgSrc: String               = "images/items/Close Helm.png"
+    val armorType: ArmorType with EquipType = ArmorType.Head
+    val rarity: ItemRarity                  = ItemRarity.Rare
+    val recipe: Option[(Item, Item)]        = (ChainCoif, Mask).some
+    val imgSrc: String                      = "images/items/Close Helm.png"
   }
 
   final case object MotorcycleHelmet extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Head
-    val rarity: ItemRarity           = ItemRarity.Rare
-    val recipe: Option[(Item, Item)] = (FireHelmet, Binoculars).some
-    val imgSrc: String               = "images/items/Motorcycle Helmet.png"
+    val armorType: ArmorType with EquipType = ArmorType.Head
+    val rarity: ItemRarity                  = ItemRarity.Rare
+    val recipe: Option[(Item, Item)]        = (FireHelmet, Binoculars).some
+    val imgSrc: String                      = "images/items/Motorcycle Helmet.png"
   }
 
   final case object CrystalTiara extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Head
-    val rarity: ItemRarity           = ItemRarity.Epic
-    val recipe: Option[(Item, Item)] = (Mithril, ChainCoif).some
-    val imgSrc: String               = "images/items/Crystal Tiara.png"
+    val armorType: ArmorType with EquipType = ArmorType.Head
+    val rarity: ItemRarity                  = ItemRarity.Epic
+    val recipe: Option[(Item, Item)]        = (Mithril, ChainCoif).some
+    val imgSrc: String                      = "images/items/Crystal Tiara.png"
   }
 
   final case object MithrilHelm extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Head
-    val rarity: ItemRarity           = ItemRarity.Epic
-    val recipe: Option[(Item, Item)] = (CrystalTiara, GlassPieces).some
-    val imgSrc: String               = "images/items/Mithril Helm.png"
+    val armorType: ArmorType with EquipType = ArmorType.Head
+    val rarity: ItemRarity                  = ItemRarity.Epic
+    val recipe: Option[(Item, Item)]        = (CrystalTiara, GlassPieces).some
+    val imgSrc: String                      = "images/items/Mithril Helm.png"
   }
 
   final case object TacticalOPSHelmet extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Head
-    val rarity: ItemRarity           = ItemRarity.Epic
-    val recipe: Option[(Item, Item)] = (BallisticHelmet, ElectronicParts).some
-    val imgSrc: String               = "images/items/Tactical OPS Helmet.png"
+    val armorType: ArmorType with EquipType = ArmorType.Head
+    val rarity: ItemRarity                  = ItemRarity.Epic
+    val recipe: Option[(Item, Item)]        = (BallisticHelmet, ElectronicParts).some
+    val imgSrc: String                      = "images/items/Tactical OPS Helmet.png"
   }
 
   final case object HelmOfBanneret extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Head
-    val rarity: ItemRarity           = ItemRarity.Epic
-    val recipe: Option[(Item, Item)] = (CloseHelm, Rubber).some
-    val imgSrc: String               = "images/items/Helm of Banneret.png"
+    val armorType: ArmorType with EquipType = ArmorType.Head
+    val rarity: ItemRarity                  = ItemRarity.Epic
+    val recipe: Option[(Item, Item)]        = (CloseHelm, Rubber).some
+    val imgSrc: String                      = "images/items/Helm of Banneret.png"
   }
 
   final case object ChineseOperaMask extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Head
-    val rarity: ItemRarity           = ItemRarity.Epic
-    val recipe: Option[(Item, Item)] = (Mask, VFBloodSample).some
-    val imgSrc: String               = "images/items/Chinese Opera Mask.png"
+    val armorType: ArmorType with EquipType = ArmorType.Head
+    val rarity: ItemRarity                  = ItemRarity.Epic
+    val recipe: Option[(Item, Item)]        = (Mask, VFBloodSample).some
+    val imgSrc: String                      = "images/items/Chinese Opera Mask.png"
   }
 
   final case object ImperialCrown extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Head
-    val rarity: ItemRarity           = ItemRarity.Epic
-    val recipe: Option[(Item, Item)] = (Crown, Ruby).some
-    val imgSrc: String               = "images/items/Imperial Crown.png"
+    val armorType: ArmorType with EquipType = ArmorType.Head
+    val rarity: ItemRarity                  = ItemRarity.Epic
+    val recipe: Option[(Item, Item)]        = (Crown, Ruby).some
+    val imgSrc: String                      = "images/items/Imperial Crown.png"
   }
 
   final case object ImperialBurgonet extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Head
-    val rarity: ItemRarity           = ItemRarity.Epic
-    val recipe: Option[(Item, Item)] = (CloseHelm, Gold).some
-    val imgSrc: String               = "images/items/Imperial Burgonet.png"
+    val armorType: ArmorType with EquipType = ArmorType.Head
+    val rarity: ItemRarity                  = ItemRarity.Epic
+    val recipe: Option[(Item, Item)]        = (CloseHelm, Gold).some
+    val imgSrc: String                      = "images/items/Imperial Burgonet.png"
   }
 
   final case object LaurelWreath extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Head
-    val rarity: ItemRarity           = ItemRarity.Legendary
-    val recipe: Option[(Item, Item)] = (TrueSamadhiFire, Circlet).some
-    val imgSrc: String               = "images/items/Laurel Wreath.png"
+    val armorType: ArmorType with EquipType = ArmorType.Head
+    val rarity: ItemRarity                  = ItemRarity.Legendary
+    val recipe: Option[(Item, Item)]        = (TrueSamadhiFire, Circlet).some
+    val imgSrc: String                      = "images/items/Laurel Wreath.png"
   }
 
   final case object Windbreaker extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Chest
-    val rarity: ItemRarity           = ItemRarity.Common
-    val recipe: Option[(Item, Item)] = None
-    val imgSrc: String               = "images/items/Windbreaker.png"
+    val armorType: ArmorType with EquipType = ArmorType.Chest
+    val rarity: ItemRarity                  = ItemRarity.Common
+    val recipe: Option[(Item, Item)]        = None
+    val imgSrc: String                      = "images/items/Windbreaker.png"
   }
 
   final case object MonksRobe extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Chest
-    val rarity: ItemRarity           = ItemRarity.Common
-    val recipe: Option[(Item, Item)] = None
-    val imgSrc: String               = "images/items/Monk_s Robe.png"
+    val armorType: ArmorType with EquipType = ArmorType.Chest
+    val rarity: ItemRarity                  = ItemRarity.Common
+    val recipe: Option[(Item, Item)]        = None
+    val imgSrc: String                      = "images/items/Monk_s Robe.png"
   }
 
   final case object Wetsuit extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Chest
-    val rarity: ItemRarity           = ItemRarity.Common
-    val recipe: Option[(Item, Item)] = None
-    val imgSrc: String               = "images/items/Full Body Swimsuit.png"
+    val armorType: ArmorType with EquipType = ArmorType.Chest
+    val rarity: ItemRarity                  = ItemRarity.Common
+    val recipe: Option[(Item, Item)]        = None
+    val imgSrc: String                      = "images/items/Full Body Swimsuit.png"
   }
 
   final case object FabricArmor extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Chest
-    val rarity: ItemRarity           = ItemRarity.Common
-    val recipe: Option[(Item, Item)] = None
-    val imgSrc: String               = "images/items/Fabric Armor.png"
+    val armorType: ArmorType with EquipType = ArmorType.Chest
+    val rarity: ItemRarity                  = ItemRarity.Common
+    val recipe: Option[(Item, Item)]        = None
+    val imgSrc: String                      = "images/items/Fabric Armor.png"
   }
 
   final case object LeatherArmor extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Chest
-    val rarity: ItemRarity           = ItemRarity.Uncommon
-    val recipe: Option[(Item, Item)] = (FabricArmor, Leather).some
-    val imgSrc: String               = "images/items/Leather Armor.png"
+    val armorType: ArmorType with EquipType = ArmorType.Chest
+    val rarity: ItemRarity                  = ItemRarity.Uncommon
+    val recipe: Option[(Item, Item)]        = (FabricArmor, Leather).some
+    val imgSrc: String                      = "images/items/Leather Armor.png"
   }
 
   final case object LeatherJacket extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Chest
-    val rarity: ItemRarity           = ItemRarity.Uncommon
-    val recipe: Option[(Item, Item)] = (Windbreaker, Leather).some
-    val imgSrc: String               = "images/items/Leather Jacker.png"
+    val armorType: ArmorType with EquipType = ArmorType.Chest
+    val rarity: ItemRarity                  = ItemRarity.Uncommon
+    val recipe: Option[(Item, Item)]        = (Windbreaker, Leather).some
+    val imgSrc: String                      = "images/items/Leather Jacker.png"
   }
 
   final case object TurtleDobok extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Chest
-    val rarity: ItemRarity           = ItemRarity.Uncommon
-    val recipe: Option[(Item, Item)] = (MonksRobe, TurtleShell).some
-    val imgSrc: String               = "images/items/Turtle Dobok.png"
+    val armorType: ArmorType with EquipType = ArmorType.Chest
+    val rarity: ItemRarity                  = ItemRarity.Uncommon
+    val recipe: Option[(Item, Item)]        = (MonksRobe, TurtleShell).some
+    val imgSrc: String                      = "images/items/Turtle Dobok.png"
   }
 
   final case object MilitarySuit extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Chest
-    val rarity: ItemRarity           = ItemRarity.Uncommon
-    val recipe: Option[(Item, Item)] = (Windbreaker, Branch).some
-    val imgSrc: String               = "images/items/Military Suit.png"
+    val armorType: ArmorType with EquipType = ArmorType.Chest
+    val rarity: ItemRarity                  = ItemRarity.Uncommon
+    val recipe: Option[(Item, Item)]        = (Windbreaker, Branch).some
+    val imgSrc: String                      = "images/items/Military Suit.png"
   }
 
   final case object Bikini extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Chest
-    val rarity: ItemRarity           = ItemRarity.Uncommon
-    val recipe: Option[(Item, Item)] = (Wetsuit, Scissors).some
-    val imgSrc: String               = "images/items/Bikini.png"
+    val armorType: ArmorType with EquipType = ArmorType.Chest
+    val rarity: ItemRarity                  = ItemRarity.Uncommon
+    val recipe: Option[(Item, Item)]        = (Wetsuit, Scissors).some
+    val imgSrc: String                      = "images/items/Bikini.png"
   }
 
   final case object PatchedRobe extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Chest
-    val rarity: ItemRarity           = ItemRarity.Uncommon
-    val recipe: Option[(Item, Item)] = (MonksRobe, Bandage).some
-    val imgSrc: String               = "images/items/Patched Robe.png"
+    val armorType: ArmorType with EquipType = ArmorType.Chest
+    val rarity: ItemRarity                  = ItemRarity.Uncommon
+    val recipe: Option[(Item, Item)]        = (MonksRobe, Bandage).some
+    val imgSrc: String                      = "images/items/Patched Robe.png"
   }
 
   final case object Dress extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Chest
-    val rarity: ItemRarity           = ItemRarity.Uncommon
-    val recipe: Option[(Item, Item)] = (Cloth, Scissors).some
-    val imgSrc: String               = "images/items/Dress.png"
+    val armorType: ArmorType with EquipType = ArmorType.Chest
+    val rarity: ItemRarity                  = ItemRarity.Uncommon
+    val recipe: Option[(Item, Item)]        = (Cloth, Scissors).some
+    val imgSrc: String                      = "images/items/Dress.png"
   }
 
   final case object DivingSuit extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Chest
-    val rarity: ItemRarity           = ItemRarity.Uncommon
-    val recipe: Option[(Item, Item)] = (Wetsuit, Bandage).some
-    val imgSrc: String               = "images/items/Diving Suit.png"
+    val armorType: ArmorType with EquipType = ArmorType.Chest
+    val rarity: ItemRarity                  = ItemRarity.Uncommon
+    val recipe: Option[(Item, Item)]        = (Wetsuit, Bandage).some
+    val imgSrc: String                      = "images/items/Diving Suit.png"
   }
 
   final case object RiderJacket extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Chest
-    val rarity: ItemRarity           = ItemRarity.Rare
-    val recipe: Option[(Item, Item)] = (RiderJacket, SteelChain).some
-    val imgSrc: String               = "images/items/Rider Jacket.png"
+    val armorType: ArmorType with EquipType = ArmorType.Chest
+    val rarity: ItemRarity                  = ItemRarity.Rare
+    val recipe: Option[(Item, Item)]        = (RiderJacket, SteelChain).some
+    val imgSrc: String                      = "images/items/Rider Jacket.png"
   }
 
   final case object SunsetArmor extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Chest
-    val rarity: ItemRarity           = ItemRarity.Rare
-    val recipe: Option[(Item, Item)] = (LeatherArmor, Ruby).some
-    val imgSrc: String               = "images/items/Sunset Armor.png"
+    val armorType: ArmorType with EquipType = ArmorType.Chest
+    val rarity: ItemRarity                  = ItemRarity.Rare
+    val recipe: Option[(Item, Item)]        = (LeatherArmor, Ruby).some
+    val imgSrc: String                      = "images/items/Sunset Armor.png"
   }
 
   final case object CovertAgentUniform extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Chest
-    val rarity: ItemRarity           = ItemRarity.Rare
-    val recipe: Option[(Item, Item)] = (Hanbok, StallionMedal).some
-    val imgSrc: String               = "images/items/Covert Agent Uniform.png"
+    val armorType: ArmorType with EquipType = ArmorType.Chest
+    val rarity: ItemRarity                  = ItemRarity.Rare
+    val recipe: Option[(Item, Item)]        = (Hanbok, StallionMedal).some
+    val imgSrc: String                      = "images/items/Covert Agent Uniform.png"
   }
 
   final case object ChainArmor extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Chest
-    val rarity: ItemRarity           = ItemRarity.Rare
-    val recipe: Option[(Item, Item)] = (LeatherArmor, SteelChain).some
-    val imgSrc: String               = "images/items/Chain Armor.png"
+    val armorType: ArmorType with EquipType = ArmorType.Chest
+    val rarity: ItemRarity                  = ItemRarity.Rare
+    val recipe: Option[(Item, Item)]        = (LeatherArmor, SteelChain).some
+    val imgSrc: String                      = "images/items/Chain Armor.png"
   }
 
   final case object Suit extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Chest
-    val rarity: ItemRarity           = ItemRarity.Rare
-    val recipe: Option[(Item, Item)] = (MilitarySuit, Ribbon).some
-    val imgSrc: String               = "images/items/Suit.png"
+    val armorType: ArmorType with EquipType = ArmorType.Chest
+    val rarity: ItemRarity                  = ItemRarity.Rare
+    val recipe: Option[(Item, Item)]        = (MilitarySuit, Ribbon).some
+    val imgSrc: String                      = "images/items/Suit.png"
   }
 
   final case object Qipao extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Chest
-    val rarity: ItemRarity           = ItemRarity.Rare
-    val recipe: Option[(Item, Item)] = (Dress, Razor).some
-    val imgSrc: String               = "images/items/Qipao.png"
+    val armorType: ArmorType with EquipType = ArmorType.Chest
+    val rarity: ItemRarity                  = ItemRarity.Rare
+    val recipe: Option[(Item, Item)]        = (Dress, Razor).some
+    val imgSrc: String                      = "images/items/Qipao.png"
   }
 
   final case object SheetMetalArmor extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Chest
-    val rarity: ItemRarity           = ItemRarity.Rare
-    val recipe: Option[(Item, Item)] = (FabricArmor, Steel).some
-    val imgSrc: String               = "images/items/Sheet Metal Armor.png"
+    val armorType: ArmorType with EquipType = ArmorType.Chest
+    val rarity: ItemRarity                  = ItemRarity.Rare
+    val recipe: Option[(Item, Item)]        = (FabricArmor, Steel).some
+    val imgSrc: String                      = "images/items/Sheet Metal Armor.png"
   }
 
   final case object Hanbok extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Chest
-    val rarity: ItemRarity           = ItemRarity.Rare
-    val recipe: Option[(Item, Item)] = (PatchedRobe, Flower).some
-    val imgSrc: String               = "images/items/Hanbok.png"
+    val armorType: ArmorType with EquipType = ArmorType.Chest
+    val rarity: ItemRarity                  = ItemRarity.Rare
+    val recipe: Option[(Item, Item)]        = (PatchedRobe, Flower).some
+    val imgSrc: String                      = "images/items/Hanbok.png"
   }
 
   final case object BulletproofVest extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Chest
-    val rarity: ItemRarity           = ItemRarity.Rare
-    val recipe: Option[(Item, Item)] = (MilitarySuit, IronSheet).some
-    val imgSrc: String               = "images/items/Bulletproof Vest.png"
+    val armorType: ArmorType with EquipType = ArmorType.Chest
+    val rarity: ItemRarity                  = ItemRarity.Rare
+    val recipe: Option[(Item, Item)]        = (MilitarySuit, IronSheet).some
+    val imgSrc: String                      = "images/items/Bulletproof Vest.png"
   }
 
   final case object OpticalCamouflageSuit extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Chest
-    val rarity: ItemRarity           = ItemRarity.Epic
-    val recipe: Option[(Item, Item)] = (DivingSuit, GlassPanel).some
-    val imgSrc: String               = "images/items/Optical Camouflage Suit.png"
+    val armorType: ArmorType with EquipType = ArmorType.Chest
+    val rarity: ItemRarity                  = ItemRarity.Epic
+    val recipe: Option[(Item, Item)]        = (DivingSuit, GlassPanel).some
+    val imgSrc: String                      = "images/items/Optical Camouflage Suit.png"
   }
 
   final case object EODSuit extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Chest
-    val rarity: ItemRarity           = ItemRarity.Epic
-    val recipe: Option[(Item, Item)] = (BulletproofVest, PatchedRobe).some
-    val imgSrc: String               = "images/items/EOD Suit.png"
+    val armorType: ArmorType with EquipType = ArmorType.Chest
+    val rarity: ItemRarity                  = ItemRarity.Epic
+    val recipe: Option[(Item, Item)]        = (BulletproofVest, PatchedRobe).some
+    val imgSrc: String                      = "images/items/EOD Suit.png"
   }
 
   final case object ButlersSuit extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Chest
-    val rarity: ItemRarity           = ItemRarity.Epic
-    val recipe: Option[(Item, Item)] = (Suit, FeatherDuster).some
-    val imgSrc: String               = "images/items/Butler_s Suit.png"
+    val armorType: ArmorType with EquipType = ArmorType.Chest
+    val rarity: ItemRarity                  = ItemRarity.Epic
+    val recipe: Option[(Item, Item)]        = (Suit, FeatherDuster).some
+    val imgSrc: String                      = "images/items/Butler_s Suit.png"
   }
 
   final case object RockersJacket extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Chest
-    val rarity: ItemRarity           = ItemRarity.Epic
-    val recipe: Option[(Item, Item)] = (RiderJacket, ClangClatter).some
-    val imgSrc: String               = "images/items/Rocker_s Jacket.png"
+    val armorType: ArmorType with EquipType = ArmorType.Chest
+    val rarity: ItemRarity                  = ItemRarity.Epic
+    val recipe: Option[(Item, Item)]        = (RiderJacket, ClangClatter).some
+    val imgSrc: String                      = "images/items/Rocker_s Jacket.png"
   }
 
   final case object MithrilArmor extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Chest
-    val rarity: ItemRarity           = ItemRarity.Epic
-    val recipe: Option[(Item, Item)] = (Mithril, LeatherArmor).some
-    val imgSrc: String               = "images/items/Mithril Armor.png"
+    val armorType: ArmorType with EquipType = ArmorType.Chest
+    val rarity: ItemRarity                  = ItemRarity.Epic
+    val recipe: Option[(Item, Item)]        = (Mithril, LeatherArmor).some
+    val imgSrc: String                      = "images/items/Mithril Armor.png"
   }
 
   final case object CrusaderArmor extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Chest
-    val rarity: ItemRarity           = ItemRarity.Epic
-    val recipe: Option[(Item, Item)] = (SheetMetalArmor, SaintsRelic).some
-    val imgSrc: String               = "images/items/Crusader Armor.png"
+    val armorType: ArmorType with EquipType = ArmorType.Chest
+    val rarity: ItemRarity                  = ItemRarity.Epic
+    val recipe: Option[(Item, Item)]        = (SheetMetalArmor, SaintsRelic).some
+    val imgSrc: String                      = "images/items/Crusader Armor.png"
   }
 
   final case object AmazonessArmor extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Chest
-    val rarity: ItemRarity           = ItemRarity.Epic
-    val recipe: Option[(Item, Item)] = (SheetMetalArmor, Bikini).some
-    val imgSrc: String               = "images/items/Amazoness Armor.png"
+    val armorType: ArmorType with EquipType = ArmorType.Chest
+    val rarity: ItemRarity                  = ItemRarity.Epic
+    val recipe: Option[(Item, Item)]        = (SheetMetalArmor, Bikini).some
+    val imgSrc: String                      = "images/items/Amazoness Armor.png"
   }
 
   final case object DragonDobok extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Chest
-    val rarity: ItemRarity           = ItemRarity.Epic
-    val recipe: Option[(Item, Item)] = (Qipao, TurtleDobok).some
-    val imgSrc: String               = "images/items/Dragon Dobok.png"
+    val armorType: ArmorType with EquipType = ArmorType.Chest
+    val rarity: ItemRarity                  = ItemRarity.Epic
+    val recipe: Option[(Item, Item)]        = (Qipao, TurtleDobok).some
+    val imgSrc: String                      = "images/items/Dragon Dobok.png"
   }
 
   final case object CommandersArmor extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Chest
-    val rarity: ItemRarity           = ItemRarity.Epic
-    val recipe: Option[(Item, Item)] = (ChainArmor, Gold).some
-    val imgSrc: String               = "images/items/Commander_s Armor.png"
+    val armorType: ArmorType with EquipType = ArmorType.Chest
+    val rarity: ItemRarity                  = ItemRarity.Epic
+    val recipe: Option[(Item, Item)]        = (ChainArmor, Gold).some
+    val imgSrc: String                      = "images/items/Commander_s Armor.png"
   }
 
   final case object BattleSuit extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Chest
-    val rarity: ItemRarity           = ItemRarity.Epic
-    val recipe: Option[(Item, Item)] = (BulletproofVest, DivingSuit).some
-    val imgSrc: String               = "images/items/Battle Suit.png"
+    val armorType: ArmorType with EquipType = ArmorType.Chest
+    val rarity: ItemRarity                  = ItemRarity.Epic
+    val recipe: Option[(Item, Item)]        = (BulletproofVest, DivingSuit).some
+    val imgSrc: String                      = "images/items/Battle Suit.png"
   }
 
   final case object Kabana extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Chest
-    val rarity: ItemRarity           = ItemRarity.Legendary
-    val recipe: Option[(Item, Item)] = (Meteorite, CommandersArmor).some
-    val imgSrc: String               = "images/items/Kabana.png"
+    val armorType: ArmorType with EquipType = ArmorType.Chest
+    val rarity: ItemRarity                  = ItemRarity.Legendary
+    val recipe: Option[(Item, Item)]        = (Meteorite, CommandersArmor).some
+    val imgSrc: String                      = "images/items/Kabana.png"
   }
 
   final case object QueenOfHearts extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Chest
-    val rarity: ItemRarity           = ItemRarity.Legendary
-    val recipe: Option[(Item, Item)] = (VFBloodSample, Hanbok).some
-    val imgSrc: String               = "images/items/Queen of Hearts.png"
+    val armorType: ArmorType with EquipType = ArmorType.Chest
+    val rarity: ItemRarity                  = ItemRarity.Legendary
+    val recipe: Option[(Item, Item)]        = (VFBloodSample, Hanbok).some
+    val imgSrc: String                      = "images/items/Queen of Hearts.png"
   }
 
   final case object BlazingDress extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Chest
-    val rarity: ItemRarity           = ItemRarity.Legendary
-    val recipe: Option[(Item, Item)] = (TrueSamadhiFire, Dress).some
-    val imgSrc: String               = "images/items/Blazing Dress.png"
+    val armorType: ArmorType with EquipType = ArmorType.Chest
+    val rarity: ItemRarity                  = ItemRarity.Legendary
+    val recipe: Option[(Item, Item)]        = (TrueSamadhiFire, Dress).some
+    val imgSrc: String                      = "images/items/Blazing Dress.png"
   }
 
   final case object Watch extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Arm
-    val rarity: ItemRarity           = ItemRarity.Common
-    val recipe: Option[(Item, Item)] = None
-    val imgSrc: String               = "images/items/Watch.png"
+    val armorType: ArmorType with EquipType = ArmorType.Arm
+    val rarity: ItemRarity                  = ItemRarity.Common
+    val recipe: Option[(Item, Item)]        = None
+    val imgSrc: String                      = "images/items/Watch.png"
   }
 
   final case object Bandage extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Arm
-    val rarity: ItemRarity           = ItemRarity.Common
-    val recipe: Option[(Item, Item)] = None
-    val imgSrc: String               = "images/items/Bandage.png"
+    val armorType: ArmorType with EquipType = ArmorType.Arm
+    val rarity: ItemRarity                  = ItemRarity.Common
+    val recipe: Option[(Item, Item)]        = None
+    val imgSrc: String                      = "images/items/Bandage.png"
   }
 
   final case object Bracelet extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Arm
-    val rarity: ItemRarity           = ItemRarity.Common
-    val recipe: Option[(Item, Item)] = None
-    val imgSrc: String               = "images/items/Bracelet.png"
+    val armorType: ArmorType with EquipType = ArmorType.Arm
+    val rarity: ItemRarity                  = ItemRarity.Common
+    val recipe: Option[(Item, Item)]        = None
+    val imgSrc: String                      = "images/items/Bracelet.png"
   }
 
   final case object SquadLeaderArmband extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Arm
-    val rarity: ItemRarity           = ItemRarity.Uncommon
-    val recipe: Option[(Item, Item)] = (Bandage, Needle).some
-    val imgSrc: String               = "images/items/Squad Leader Armband.png"
+    val armorType: ArmorType with EquipType = ArmorType.Arm
+    val rarity: ItemRarity                  = ItemRarity.Uncommon
+    val recipe: Option[(Item, Item)]        = (Bandage, Needle).some
+    val imgSrc: String                      = "images/items/Squad Leader Armband.png"
   }
 
   final case object LeatherShield extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Arm
-    val rarity: ItemRarity           = ItemRarity.Uncommon
-    val recipe: Option[(Item, Item)] = (TurtleShell, Leather).some
-    val imgSrc: String               = "images/items/Leather Shield.png"
+    val armorType: ArmorType with EquipType = ArmorType.Arm
+    val rarity: ItemRarity                  = ItemRarity.Uncommon
+    val recipe: Option[(Item, Item)]        = (TurtleShell, Leather).some
+    val imgSrc: String                      = "images/items/Leather Shield.png"
   }
 
   final case object Bracer extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Arm
-    val rarity: ItemRarity           = ItemRarity.Uncommon
-    val recipe: Option[(Item, Item)] = (Bandage, Leather).some
-    val imgSrc: String               = "images/items/Bracer.png"
+    val armorType: ArmorType with EquipType = ArmorType.Arm
+    val rarity: ItemRarity                  = ItemRarity.Uncommon
+    val recipe: Option[(Item, Item)]        = (Bandage, Leather).some
+    val imgSrc: String                      = "images/items/Bracer.png"
   }
 
   final case object Sheath extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Arm
-    val rarity: ItemRarity           = ItemRarity.Rare
-    val recipe: Option[(Item, Item)] = (Leather, IronSheet).some
-    val imgSrc: String               = "images/items/Sheath.png"
+    val armorType: ArmorType with EquipType = ArmorType.Arm
+    val rarity: ItemRarity                  = ItemRarity.Rare
+    val recipe: Option[(Item, Item)]        = (Leather, IronSheet).some
+    val imgSrc: String                      = "images/items/Sheath.png"
   }
 
   final case object CubeWatch extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Arm
-    val rarity: ItemRarity           = ItemRarity.Rare
-    val recipe: Option[(Item, Item)] = (Watch, Moonstone).some
-    val imgSrc: String               = "images/items/Cube Watch.png"
+    val armorType: ArmorType with EquipType = ArmorType.Arm
+    val rarity: ItemRarity                  = ItemRarity.Rare
+    val recipe: Option[(Item, Item)]        = (Watch, Moonstone).some
+    val imgSrc: String                      = "images/items/Cube Watch.png"
   }
 
   final case object GoldenBracelet extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Arm
-    val rarity: ItemRarity           = ItemRarity.Rare
-    val recipe: Option[(Item, Item)] = (Bracelet, Gold).some
-    val imgSrc: String               = "images/items/Golden Bracelet.png"
+    val armorType: ArmorType with EquipType = ArmorType.Arm
+    val rarity: ItemRarity                  = ItemRarity.Rare
+    val recipe: Option[(Item, Item)]        = (Bracelet, Gold).some
+    val imgSrc: String                      = "images/items/Golden Bracelet.png"
   }
 
   final case object Bazuband extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Arm
-    val rarity: ItemRarity           = ItemRarity.Rare
-    val recipe: Option[(Item, Item)] = (Bracer, IronSheet).some
-    val imgSrc: String               = "images/items/Bazuband.png"
+    val armorType: ArmorType with EquipType = ArmorType.Arm
+    val rarity: ItemRarity                  = ItemRarity.Rare
+    val recipe: Option[(Item, Item)]        = (Bracer, IronSheet).some
+    val imgSrc: String                      = "images/items/Bazuband.png"
   }
 
   final case object CrimsonBracelet extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Arm
-    val rarity: ItemRarity           = ItemRarity.Rare
-    val recipe: Option[(Item, Item)] = (Bracelet, Ruby).some
-    val imgSrc: String               = "images/items/Crimson Bracelet.png"
+    val armorType: ArmorType with EquipType = ArmorType.Arm
+    val rarity: ItemRarity                  = ItemRarity.Rare
+    val recipe: Option[(Item, Item)]        = (Bracelet, Ruby).some
+    val imgSrc: String                      = "images/items/Crimson Bracelet.png"
   }
 
   final case object SteelShield extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Arm
-    val rarity: ItemRarity           = ItemRarity.Rare
-    val recipe: Option[(Item, Item)] = (LeatherShield, Steel).some
-    val imgSrc: String               = "images/items/Steel Shield.png"
+    val armorType: ArmorType with EquipType = ArmorType.Arm
+    val rarity: ItemRarity                  = ItemRarity.Rare
+    val recipe: Option[(Item, Item)]        = (LeatherShield, Steel).some
+    val imgSrc: String                      = "images/items/Steel Shield.png"
   }
 
   final case object SwordStopper extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Arm
-    val rarity: ItemRarity           = ItemRarity.Epic
-    val recipe: Option[(Item, Item)] = (Bazuband, Nail).some
-    val imgSrc: String               = "images/items/Sword Stopper.png"
+    val armorType: ArmorType with EquipType = ArmorType.Arm
+    val rarity: ItemRarity                  = ItemRarity.Epic
+    val recipe: Option[(Item, Item)]        = (Bazuband, Nail).some
+    val imgSrc: String                      = "images/items/Sword Stopper.png"
   }
 
   final case object MithrilShield extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Arm
-    val rarity: ItemRarity           = ItemRarity.Epic
-    val recipe: Option[(Item, Item)] = (Mithril, LeatherShield).some
-    val imgSrc: String               = "images/items/Mithril Shield.png"
+    val armorType: ArmorType with EquipType = ArmorType.Arm
+    val rarity: ItemRarity                  = ItemRarity.Epic
+    val recipe: Option[(Item, Item)]        = (Mithril, LeatherShield).some
+    val imgSrc: String                      = "images/items/Mithril Shield.png"
   }
 
   final case object VitalSignSensor extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Arm
-    val rarity: ItemRarity           = ItemRarity.Epic
-    val recipe: Option[(Item, Item)] = (Watch, CellPhone).some
-    val imgSrc: String               = "images/items/Vital Sign Sensor.png"
+    val armorType: ArmorType with EquipType = ArmorType.Arm
+    val rarity: ItemRarity                  = ItemRarity.Epic
+    val recipe: Option[(Item, Item)]        = (Watch, CellPhone).some
+    val imgSrc: String                      = "images/items/Vital Sign Sensor.png"
   }
 
   final case object Draupnir extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Arm
-    val rarity: ItemRarity           = ItemRarity.Epic
-    val recipe: Option[(Item, Item)] = (GoldenBracelet, Bracer).some
-    val imgSrc: String               = "images/items/Draupnir.png"
+    val armorType: ArmorType with EquipType = ArmorType.Arm
+    val rarity: ItemRarity                  = ItemRarity.Epic
+    val recipe: Option[(Item, Item)]        = (GoldenBracelet, Bracer).some
+    val imgSrc: String                      = "images/items/Draupnir.png"
   }
 
   final case object CreedOfTheKnight extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Arm
-    val rarity: ItemRarity           = ItemRarity.Epic
-    val recipe: Option[(Item, Item)] = (SteelShield, SquadLeaderArmband).some
-    val imgSrc: String               = "images/items/Creed of the Knight.png"
+    val armorType: ArmorType with EquipType = ArmorType.Arm
+    val rarity: ItemRarity                  = ItemRarity.Epic
+    val recipe: Option[(Item, Item)]        = (SteelShield, SquadLeaderArmband).some
+    val imgSrc: String                      = "images/items/Creed of the Knight.png"
   }
 
   final case object SwordOfShahJahan extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Arm
-    val rarity: ItemRarity           = ItemRarity.Epic
-    val recipe: Option[(Item, Item)] = (Sheath, Ruby).some
-    val imgSrc: String               = "images/items/Sword of Shah Jahan.png"
+    val armorType: ArmorType with EquipType = ArmorType.Arm
+    val rarity: ItemRarity                  = ItemRarity.Epic
+    val recipe: Option[(Item, Item)]        = (Sheath, Ruby).some
+    val imgSrc: String                      = "images/items/Sword of Shah Jahan.png"
   }
 
   final case object BraceletOfSkadi extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Arm
-    val rarity: ItemRarity           = ItemRarity.Legendary
-    val recipe: Option[(Item, Item)] = (GlacialIce, CrimsonBracelet).some
-    val imgSrc: String               = "images/items/Bracelet of Skadi.png"
+    val armorType: ArmorType with EquipType = ArmorType.Arm
+    val rarity: ItemRarity                  = ItemRarity.Legendary
+    val recipe: Option[(Item, Item)]        = (GlacialIce, CrimsonBracelet).some
+    val imgSrc: String                      = "images/items/Bracelet of Skadi.png"
   }
 
   final case object AutoArms extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Arm
-    val rarity: ItemRarity           = ItemRarity.Legendary
-    val recipe: Option[(Item, Item)] = (Bracer, ForceCore).some
-    val imgSrc: String               = "images/items/Auto-arms.png"
+    val armorType: ArmorType with EquipType = ArmorType.Arm
+    val rarity: ItemRarity                  = ItemRarity.Legendary
+    val recipe: Option[(Item, Item)]        = (Bracer, ForceCore).some
+    val imgSrc: String                      = "images/items/Auto-arms.png"
   }
 
   final case object Radar extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Arm
-    val rarity: ItemRarity           = ItemRarity.Legendary
-    val recipe: Option[(Item, Item)] = (VitalSignSensor, GlassPanel).some
-    val imgSrc: String               = "images/items/Radar.png"
+    val armorType: ArmorType with EquipType = ArmorType.Arm
+    val rarity: ItemRarity                  = ItemRarity.Legendary
+    val recipe: Option[(Item, Item)]        = (VitalSignSensor, GlassPanel).some
+    val imgSrc: String                      = "images/items/Radar.png"
   }
 
   final case object Slippers extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Leg
-    val rarity: ItemRarity           = ItemRarity.Common
-    val recipe: Option[(Item, Item)] = None
-    val imgSrc: String               = "images/items/Slippers.png"
+    val armorType: ArmorType with EquipType = ArmorType.Leg
+    val rarity: ItemRarity                  = ItemRarity.Common
+    val recipe: Option[(Item, Item)]        = None
+    val imgSrc: String                      = "images/items/Slippers.png"
   }
 
   final case object RunningShoes extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Leg
-    val rarity: ItemRarity           = ItemRarity.Common
-    val recipe: Option[(Item, Item)] = None
-    val imgSrc: String               = "images/items/Running Shoes.png"
+    val armorType: ArmorType with EquipType = ArmorType.Leg
+    val rarity: ItemRarity                  = ItemRarity.Common
+    val recipe: Option[(Item, Item)]        = None
+    val imgSrc: String                      = "images/items/Running Shoes.png"
   }
 
   final case object Tights extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Leg
-    val rarity: ItemRarity           = ItemRarity.Common
-    val recipe: Option[(Item, Item)] = None
-    val imgSrc: String               = "images/items/Tights.png"
+    val armorType: ArmorType with EquipType = ArmorType.Leg
+    val rarity: ItemRarity                  = ItemRarity.Common
+    val recipe: Option[(Item, Item)]        = None
+    val imgSrc: String                      = "images/items/Tights.png"
   }
 
   final case object KneePads extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Leg
-    val rarity: ItemRarity           = ItemRarity.Uncommon
-    val recipe: Option[(Item, Item)] = (Tights, Leather).some
-    val imgSrc: String               = "images/items/Knee Pads.png"
+    val armorType: ArmorType with EquipType = ArmorType.Leg
+    val rarity: ItemRarity                  = ItemRarity.Uncommon
+    val recipe: Option[(Item, Item)]        = (Tights, Leather).some
+    val imgSrc: String                      = "images/items/Knee Pads.png"
   }
 
   final case object ChainLeggings extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Leg
-    val rarity: ItemRarity           = ItemRarity.Uncommon
-    val recipe: Option[(Item, Item)] = (Tights, SteelChain).some
-    val imgSrc: String               = "images/items/Chain Leggings.png"
+    val armorType: ArmorType with EquipType = ArmorType.Leg
+    val rarity: ItemRarity                  = ItemRarity.Uncommon
+    val recipe: Option[(Item, Item)]        = (Tights, SteelChain).some
+    val imgSrc: String                      = "images/items/Chain Leggings.png"
   }
 
   final case object HighHeels extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Leg
-    val rarity: ItemRarity           = ItemRarity.Uncommon
-    val recipe: Option[(Item, Item)] = (Slippers, ScrapMetal).some
-    val imgSrc: String               = "images/items/High Heels.png"
+    val armorType: ArmorType with EquipType = ArmorType.Leg
+    val rarity: ItemRarity                  = ItemRarity.Uncommon
+    val recipe: Option[(Item, Item)]        = (Slippers, ScrapMetal).some
+    val imgSrc: String                      = "images/items/High Heels.png"
   }
 
   final case object Heelys extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Leg
-    val rarity: ItemRarity           = ItemRarity.Uncommon
-    val recipe: Option[(Item, Item)] = (RunningShoes, IronBall).some
-    val imgSrc: String               = "images/items/Heelys.png"
+    val armorType: ArmorType with EquipType = ArmorType.Leg
+    val rarity: ItemRarity                  = ItemRarity.Uncommon
+    val recipe: Option[(Item, Item)]        = (RunningShoes, IronBall).some
+    val imgSrc: String                      = "images/items/Heelys.png"
   }
 
   final case object RepairedSlippers extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Leg
-    val rarity: ItemRarity           = ItemRarity.Uncommon
-    val recipe: Option[(Item, Item)] = (Slippers, Cloth).some
-    val imgSrc: String               = "images/items/Repaired Slippers.png"
+    val armorType: ArmorType with EquipType = ArmorType.Leg
+    val rarity: ItemRarity                  = ItemRarity.Uncommon
+    val recipe: Option[(Item, Item)]        = (Slippers, Cloth).some
+    val imgSrc: String                      = "images/items/Repaired Slippers.png"
   }
 
   final case object Boots extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Leg
-    val rarity: ItemRarity           = ItemRarity.Rare
-    val recipe: Option[(Item, Item)] = (RunningShoes, Oilcloth).some
-    val imgSrc: String               = "images/items/Boots.png"
+    val armorType: ArmorType with EquipType = ArmorType.Leg
+    val rarity: ItemRarity                  = ItemRarity.Rare
+    val recipe: Option[(Item, Item)]        = (RunningShoes, Oilcloth).some
+    val imgSrc: String                      = "images/items/Boots.png"
   }
 
   final case object SteelKneePads extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Leg
-    val rarity: ItemRarity           = ItemRarity.Rare
-    val recipe: Option[(Item, Item)] = (KneePads, Steel).some
-    val imgSrc: String               = "images/items/Steel Knee Pads.png"
+    val armorType: ArmorType with EquipType = ArmorType.Leg
+    val rarity: ItemRarity                  = ItemRarity.Rare
+    val recipe: Option[(Item, Item)]        = (KneePads, Steel).some
+    val imgSrc: String                      = "images/items/Steel Knee Pads.png"
   }
 
   final case object StraitjacketSneakers extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Leg
-    val rarity: ItemRarity           = ItemRarity.Rare
-    val recipe: Option[(Item, Item)] = (RepairedSlippers, Ash).some
-    val imgSrc: String               = "images/items/Straitjacket Sneakers.png"
+    val armorType: ArmorType with EquipType = ArmorType.Leg
+    val rarity: ItemRarity                  = ItemRarity.Rare
+    val recipe: Option[(Item, Item)]        = (RepairedSlippers, Ash).some
+    val imgSrc: String                      = "images/items/Straitjacket Sneakers.png"
   }
 
   final case object MaverickRunner extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Leg
-    val rarity: ItemRarity           = ItemRarity.Rare
-    val recipe: Option[(Item, Item)] = (Heelys, ElectronicParts).some
-    val imgSrc: String               = "images/items/Maverick Runner.png"
+    val armorType: ArmorType with EquipType = ArmorType.Leg
+    val rarity: ItemRarity                  = ItemRarity.Rare
+    val recipe: Option[(Item, Item)]        = (Heelys, ElectronicParts).some
+    val imgSrc: String                      = "images/items/Maverick Runner.png"
   }
 
   final case object CombatBoots extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Leg
-    val rarity: ItemRarity           = ItemRarity.Rare
-    val recipe: Option[(Item, Item)] = (Boots, Leather).some
-    val imgSrc: String               = "images/items/Combat Boots.png"
+    val armorType: ArmorType with EquipType = ArmorType.Leg
+    val rarity: ItemRarity                  = ItemRarity.Rare
+    val recipe: Option[(Item, Item)]        = (Boots, Leather).some
+    val imgSrc: String                      = "images/items/Combat Boots.png"
   }
 
   final case object KillerHeels extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Leg
-    val rarity: ItemRarity           = ItemRarity.Rare
-    val recipe: Option[(Item, Item)] = (HighHeels, GlassPieces).some
-    val imgSrc: String               = "images/items/Killer Heels.png"
+    val armorType: ArmorType with EquipType = ArmorType.Leg
+    val rarity: ItemRarity                  = ItemRarity.Rare
+    val recipe: Option[(Item, Item)]        = (HighHeels, GlassPieces).some
+    val imgSrc: String                      = "images/items/Killer Heels.png"
   }
 
   final case object FeatherBoots extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Leg
-    val rarity: ItemRarity           = ItemRarity.Epic
-    val recipe: Option[(Item, Item)] = (CombatBoots, Feather).some
-    val imgSrc: String               = "images/items/Feather Boots.png"
+    val armorType: ArmorType with EquipType = ArmorType.Leg
+    val rarity: ItemRarity                  = ItemRarity.Epic
+    val recipe: Option[(Item, Item)]        = (CombatBoots, Feather).some
+    val imgSrc: String                      = "images/items/Feather Boots.png"
   }
 
   final case object MithrilBoots extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Leg
-    val rarity: ItemRarity           = ItemRarity.Epic
-    val recipe: Option[(Item, Item)] = (Mithril, ChainLeggings).some
-    val imgSrc: String               = "images/items/Mithril Boots.png"
+    val armorType: ArmorType with EquipType = ArmorType.Leg
+    val rarity: ItemRarity                  = ItemRarity.Epic
+    val recipe: Option[(Item, Item)]        = (Mithril, ChainLeggings).some
+    val imgSrc: String                      = "images/items/Mithril Boots.png"
   }
 
   final case object Bucephalus extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Leg
-    val rarity: ItemRarity           = ItemRarity.Epic
-    val recipe: Option[(Item, Item)] = (KillerHeels, ChainLeggings).some
-    val imgSrc: String               = "images/items/Bucephalus.png"
+    val armorType: ArmorType with EquipType = ArmorType.Leg
+    val rarity: ItemRarity                  = ItemRarity.Epic
+    val recipe: Option[(Item, Item)]        = (KillerHeels, ChainLeggings).some
+    val imgSrc: String                      = "images/items/Bucephalus.png"
   }
 
   final case object WhiteRhinos extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Leg
-    val rarity: ItemRarity           = ItemRarity.Epic
-    val recipe: Option[(Item, Item)] = (CombatBoots, Nail).some
-    val imgSrc: String               = "images/items/White Rhinos.png"
+    val armorType: ArmorType with EquipType = ArmorType.Leg
+    val rarity: ItemRarity                  = ItemRarity.Epic
+    val recipe: Option[(Item, Item)]        = (CombatBoots, Nail).some
+    val imgSrc: String                      = "images/items/White Rhinos.png"
   }
 
   final case object EODBoots extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Leg
-    val rarity: ItemRarity           = ItemRarity.Legendary
-    val recipe: Option[(Item, Item)] = (Boots, SteelKneePads).some
-    val imgSrc: String               = "images/items/EOD Boots.png"
+    val armorType: ArmorType with EquipType = ArmorType.Leg
+    val rarity: ItemRarity                  = ItemRarity.Legendary
+    val recipe: Option[(Item, Item)]        = (Boots, SteelKneePads).some
+    val imgSrc: String                      = "images/items/EOD Boots.png"
   }
 
   final case object RedShoes extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Leg
-    val rarity: ItemRarity           = ItemRarity.Legendary
-    val recipe: Option[(Item, Item)] = (KillerHeels, VFBloodSample).some
-    val imgSrc: String               = "images/items/Red Shoes.png"
+    val armorType: ArmorType with EquipType = ArmorType.Leg
+    val rarity: ItemRarity                  = ItemRarity.Legendary
+    val recipe: Option[(Item, Item)]        = (KillerHeels, VFBloodSample).some
+    val imgSrc: String                      = "images/items/Red Shoes.png"
   }
 
   final case object GlacialShoes extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Leg
-    val rarity: ItemRarity           = ItemRarity.Legendary
-    val recipe: Option[(Item, Item)] = (RepairedSlippers, GlacialIce).some
-    val imgSrc: String               = "images/items/Glacial Shoes.png"
+    val armorType: ArmorType with EquipType = ArmorType.Leg
+    val rarity: ItemRarity                  = ItemRarity.Legendary
+    val recipe: Option[(Item, Item)]        = (RepairedSlippers, GlacialIce).some
+    val imgSrc: String                      = "images/items/Glacial Shoes.png"
   }
 
   final case object BootsOfHermes extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Leg
-    val rarity: ItemRarity           = ItemRarity.Legendary
-    val recipe: Option[(Item, Item)] = (ForceCore, Heelys).some
-    val imgSrc: String               = "images/items/Boots of Hermes.png"
+    val armorType: ArmorType with EquipType = ArmorType.Leg
+    val rarity: ItemRarity                  = ItemRarity.Legendary
+    val recipe: Option[(Item, Item)]        = (ForceCore, Heelys).some
+    val imgSrc: String                      = "images/items/Boots of Hermes.png"
   }
 
   final case object Feather extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Accessory
-    val rarity: ItemRarity           = ItemRarity.Common
-    val recipe: Option[(Item, Item)] = None
-    val imgSrc: String               = "images/items/Feather.png"
+    val armorType: ArmorType with EquipType = ArmorType.Accessory
+    val rarity: ItemRarity                  = ItemRarity.Common
+    val recipe: Option[(Item, Item)]        = None
+    val imgSrc: String                      = "images/items/Feather.png"
   }
 
   final case object Flower extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Accessory
-    val rarity: ItemRarity           = ItemRarity.Common
-    val recipe: Option[(Item, Item)] = None
-    val imgSrc: String               = "images/items/Flower.png"
+    val armorType: ArmorType with EquipType = ArmorType.Accessory
+    val rarity: ItemRarity                  = ItemRarity.Common
+    val recipe: Option[(Item, Item)]        = None
+    val imgSrc: String                      = "images/items/Flower.png"
   }
 
   final case object Ribbon extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Accessory
-    val rarity: ItemRarity           = ItemRarity.Common
-    val recipe: Option[(Item, Item)] = None
-    val imgSrc: String               = "images/items/Ribbon.png"
+    val armorType: ArmorType with EquipType = ArmorType.Accessory
+    val rarity: ItemRarity                  = ItemRarity.Common
+    val recipe: Option[(Item, Item)]        = None
+    val imgSrc: String                      = "images/items/Ribbon.png"
   }
 
   final case object Fan extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Accessory
-    val rarity: ItemRarity           = ItemRarity.Common
-    val recipe: Option[(Item, Item)] = None
-    val imgSrc: String               = "images/items/Fan.png"
+    val armorType: ArmorType with EquipType = ArmorType.Accessory
+    val rarity: ItemRarity                  = ItemRarity.Common
+    val recipe: Option[(Item, Item)]        = None
+    val imgSrc: String                      = "images/items/Fan.png"
   }
 
   final case object BuddhistScripture extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Accessory
-    val rarity: ItemRarity           = ItemRarity.Common
-    val recipe: Option[(Item, Item)] = None
-    val imgSrc: String               = "images/items/Buddhist Scripture.png"
+    val armorType: ArmorType with EquipType = ArmorType.Accessory
+    val rarity: ItemRarity                  = ItemRarity.Common
+    val recipe: Option[(Item, Item)]        = None
+    val imgSrc: String                      = "images/items/Buddhist Scripture.png"
   }
 
   final case object Box extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Accessory
-    val rarity: ItemRarity           = ItemRarity.Common
-    val recipe: Option[(Item, Item)] = None
-    val imgSrc: String               = "images/items/Box.png"
+    val armorType: ArmorType with EquipType = ArmorType.Accessory
+    val rarity: ItemRarity                  = ItemRarity.Common
+    val recipe: Option[(Item, Item)]        = None
+    val imgSrc: String                      = "images/items/Box.png"
   }
 
   final case object HolyGrail extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Accessory
-    val rarity: ItemRarity           = ItemRarity.Common
-    val recipe: Option[(Item, Item)] = None
-    val imgSrc: String               = "images/items/Holy Grail.png"
+    val armorType: ArmorType with EquipType = ArmorType.Accessory
+    val rarity: ItemRarity                  = ItemRarity.Common
+    val recipe: Option[(Item, Item)]        = None
+    val imgSrc: String                      = "images/items/Holy Grail.png"
   }
 
   final case object Cross extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Accessory
-    val rarity: ItemRarity           = ItemRarity.Common
-    val recipe: Option[(Item, Item)] = None
-    val imgSrc: String               = "images/items/Cross.png"
+    val armorType: ArmorType with EquipType = ArmorType.Accessory
+    val rarity: ItemRarity                  = ItemRarity.Common
+    val recipe: Option[(Item, Item)]        = None
+    val imgSrc: String                      = "images/items/Cross.png"
   }
 
   final case object Binoculars extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Accessory
-    val rarity: ItemRarity           = ItemRarity.Common
-    val recipe: Option[(Item, Item)] = None
-    val imgSrc: String               = "images/items/Binoculars.png"
+    val armorType: ArmorType with EquipType = ArmorType.Accessory
+    val rarity: ItemRarity                  = ItemRarity.Common
+    val recipe: Option[(Item, Item)]        = None
+    val imgSrc: String                      = "images/items/Binoculars.png"
   }
 
   final case object GildedQuillFan extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Accessory
-    val rarity: ItemRarity           = ItemRarity.Uncommon
-    val recipe: Option[(Item, Item)] = (Fan, Nail).some
-    val imgSrc: String               = "images/items/Gilded Quill Fan.png"
+    val armorType: ArmorType with EquipType = ArmorType.Accessory
+    val rarity: ItemRarity                  = ItemRarity.Uncommon
+    val recipe: Option[(Item, Item)]        = (Fan, Nail).some
+    val imgSrc: String                      = "images/items/Gilded Quill Fan.png"
   }
 
   final case object SaintsRelic extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Accessory
-    val rarity: ItemRarity           = ItemRarity.Uncommon
-    val recipe: Option[(Item, Item)] = (Cross, HolyGrail).some
-    val imgSrc: String               = "images/items/Saint_s Relic.png"
+    val armorType: ArmorType with EquipType = ArmorType.Accessory
+    val rarity: ItemRarity                  = ItemRarity.Uncommon
+    val recipe: Option[(Item, Item)]        = (Cross, HolyGrail).some
+    val imgSrc: String                      = "images/items/Saint_s Relic.png"
   }
 
   final case object FlowerOfFate extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Accessory
-    val rarity: ItemRarity           = ItemRarity.Uncommon
-    val recipe: Option[(Item, Item)] = (Flower, PlayingCards).some
-    val imgSrc: String               = "images/items/Flower of Fate.png"
+    val armorType: ArmorType with EquipType = ArmorType.Accessory
+    val rarity: ItemRarity                  = ItemRarity.Uncommon
+    val recipe: Option[(Item, Item)]        = (Flower, PlayingCards).some
+    val imgSrc: String                      = "images/items/Flower of Fate.png"
   }
 
   final case object GlassPieces extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Accessory
-    val rarity: ItemRarity           = ItemRarity.Uncommon
-    val recipe: Option[(Item, Item)] = (GlassBottle, Stone).some
-    val imgSrc: String               = "images/items/Glass Pieces.png"
+    val armorType: ArmorType with EquipType = ArmorType.Accessory
+    val rarity: ItemRarity                  = ItemRarity.Uncommon
+    val recipe: Option[(Item, Item)]        = (GlassBottle, Stone).some
+    val imgSrc: String                      = "images/items/Glass Pieces.png"
   }
 
   final case object Doll extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Accessory
-    val rarity: ItemRarity           = ItemRarity.Uncommon
-    val recipe: Option[(Item, Item)] = (Ribbon, Cloth).some
-    val imgSrc: String               = "images/items/Doll.png"
+    val armorType: ArmorType with EquipType = ArmorType.Accessory
+    val rarity: ItemRarity                  = ItemRarity.Uncommon
+    val recipe: Option[(Item, Item)]        = (Ribbon, Cloth).some
+    val imgSrc: String                      = "images/items/Doll.png"
   }
 
   final case object SniperScope extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Accessory
-    val rarity: ItemRarity           = ItemRarity.Uncommon
-    val recipe: Option[(Item, Item)] = (LaserPointer, Binoculars).some
-    val imgSrc: String               = "images/items/Sniping Scope.png"
+    val armorType: ArmorType with EquipType = ArmorType.Accessory
+    val rarity: ItemRarity                  = ItemRarity.Uncommon
+    val recipe: Option[(Item, Item)]        = (LaserPointer, Binoculars).some
+    val imgSrc: String                      = "images/items/Sniping Scope.png"
   }
 
   final case object BuddhaSarira extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Accessory
-    val rarity: ItemRarity           = ItemRarity.Uncommon
-    val recipe: Option[(Item, Item)] = (BuddhistScripture, MonksRobe).some
-    val imgSrc: String               = "images/items/Buddha Sarira.png"
+    val armorType: ArmorType with EquipType = ArmorType.Accessory
+    val rarity: ItemRarity                  = ItemRarity.Uncommon
+    val recipe: Option[(Item, Item)]        = (BuddhistScripture, MonksRobe).some
+    val imgSrc: String                      = "images/items/Buddha Sarira.png"
   }
 
   final case object Quiver extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Accessory
-    val rarity: ItemRarity           = ItemRarity.Uncommon
-    val recipe: Option[(Item, Item)] = (Leather, Bamboo).some
-    val imgSrc: String               = "images/items/Quiver.png"
+    val armorType: ArmorType with EquipType = ArmorType.Accessory
+    val rarity: ItemRarity                  = ItemRarity.Uncommon
+    val recipe: Option[(Item, Item)]        = (Leather, Bamboo).some
+    val imgSrc: String                      = "images/items/Quiver.png"
   }
 
   final case object FeatherDuster extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Accessory
-    val rarity: ItemRarity           = ItemRarity.Uncommon
-    val recipe: Option[(Item, Item)] = (ShortRod, Feather).some
-    val imgSrc: String               = "images/items/Feather Duster.png"
+    val armorType: ArmorType with EquipType = ArmorType.Accessory
+    val rarity: ItemRarity                  = ItemRarity.Uncommon
+    val recipe: Option[(Item, Item)]        = (ShortRod, Feather).some
+    val imgSrc: String                      = "images/items/Feather Duster.png"
   }
 
   final case object PowderOfLife extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Accessory
-    val rarity: ItemRarity           = ItemRarity.Rare
-    val recipe: Option[(Item, Item)] = (TreeOfLife, Stone).some
-    val imgSrc: String               = "images/items/Powder of Life.png"
+    val armorType: ArmorType with EquipType = ArmorType.Accessory
+    val rarity: ItemRarity                  = ItemRarity.Rare
+    val recipe: Option[(Item, Item)]        = (TreeOfLife, Stone).some
+    val imgSrc: String                      = "images/items/Powder of Life.png"
   }
 
   final case object Uchiwa extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Accessory
-    val rarity: ItemRarity           = ItemRarity.Rare
-    val recipe: Option[(Item, Item)] = (Doll, Fan).some
-    val imgSrc: String               = "images/items/Uchiwa.png"
+    val armorType: ArmorType with EquipType = ArmorType.Accessory
+    val rarity: ItemRarity                  = ItemRarity.Rare
+    val recipe: Option[(Item, Item)]        = (Doll, Fan).some
+    val imgSrc: String                      = "images/items/Uchiwa.png"
   }
 
   final case object Magazine extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Accessory
-    val rarity: ItemRarity           = ItemRarity.Rare
-    val recipe: Option[(Item, Item)] = (Box, IronSheet).some
-    val imgSrc: String               = "images/items/Magazine.png"
+    val armorType: ArmorType with EquipType = ArmorType.Accessory
+    val rarity: ItemRarity                  = ItemRarity.Rare
+    val recipe: Option[(Item, Item)]        = (Box, IronSheet).some
+    val imgSrc: String                      = "images/items/Magazine.png"
   }
 
   final case object LacedQuiver extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Accessory
-    val rarity: ItemRarity           = ItemRarity.Rare
-    val recipe: Option[(Item, Item)] = (Quiver, FeatherDuster).some
-    val imgSrc: String               = "images/items/Laced Quiver.png"
+    val armorType: ArmorType with EquipType = ArmorType.Accessory
+    val rarity: ItemRarity                  = ItemRarity.Rare
+    val recipe: Option[(Item, Item)]        = (Quiver, FeatherDuster).some
+    val imgSrc: String                      = "images/items/Laced Quiver.png"
   }
 
   final case object MoonlightPendant extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Accessory
-    val rarity: ItemRarity           = ItemRarity.Rare
-    val recipe: Option[(Item, Item)] = (Ribbon, Moonstone).some
-    val imgSrc: String               = "images/items/Moonlight Pendant.png"
+    val armorType: ArmorType with EquipType = ArmorType.Accessory
+    val rarity: ItemRarity                  = ItemRarity.Rare
+    val recipe: Option[(Item, Item)]        = (Ribbon, Moonstone).some
+    val imgSrc: String                      = "images/items/Moonlight Pendant.png"
   }
 
   final case object SchrodingersBox extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Accessory
-    val rarity: ItemRarity           = ItemRarity.Rare
-    val recipe: Option[(Item, Item)] = (Box, Poison).some
-    val imgSrc: String               = "images/items/Schrodinger_s Box.png"
+    val armorType: ArmorType with EquipType = ArmorType.Accessory
+    val rarity: ItemRarity                  = ItemRarity.Rare
+    val recipe: Option[(Item, Item)]        = (Box, Poison).some
+    val imgSrc: String                      = "images/items/Schrodinger_s Box.png"
   }
 
   final case object VeritasLuxMea extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Accessory
-    val rarity: ItemRarity           = ItemRarity.Rare
-    val recipe: Option[(Item, Item)] = (BuddhaSarira, SaintsRelic).some
-    val imgSrc: String               = "images/items/Veritas Lux Mea.png"
+    val armorType: ArmorType with EquipType = ArmorType.Accessory
+    val rarity: ItemRarity                  = ItemRarity.Rare
+    val recipe: Option[(Item, Item)]        = (BuddhaSarira, SaintsRelic).some
+    val imgSrc: String                      = "images/items/Veritas Lux Mea.png"
   }
 
   final case object WhiteCraneFan extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Accessory
-    val rarity: ItemRarity           = ItemRarity.Rare
-    val recipe: Option[(Item, Item)] = (GildedQuillFan, Feather).some
-    val imgSrc: String               = "images/items/White Crane Fan.png"
+    val armorType: ArmorType with EquipType = ArmorType.Accessory
+    val rarity: ItemRarity                  = ItemRarity.Rare
+    val recipe: Option[(Item, Item)]        = (GildedQuillFan, Feather).some
+    val imgSrc: String                      = "images/items/White Crane Fan.png"
   }
 
   final case object GlacialIce extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Accessory
-    val rarity: ItemRarity           = ItemRarity.Epic
-    val recipe: Option[(Item, Item)] = (PowderOfLife, Ice).some
-    val imgSrc: String               = "images/items/Glacial Ice.png"
+    val armorType: ArmorType with EquipType = ArmorType.Accessory
+    val rarity: ItemRarity                  = ItemRarity.Epic
+    val recipe: Option[(Item, Item)]        = (PowderOfLife, Ice).some
+    val imgSrc: String                      = "images/items/Glacial Ice.png"
   }
 
   final case object TrueSamadhiFire extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Accessory
-    val rarity: ItemRarity           = ItemRarity.Epic
-    val recipe: Option[(Item, Item)] = (PowderOfLife, Lighter).some
-    val imgSrc: String               = "images/items/True Samadhi Fire.png"
+    val armorType: ArmorType with EquipType = ArmorType.Accessory
+    val rarity: ItemRarity                  = ItemRarity.Epic
+    val recipe: Option[(Item, Item)]        = (PowderOfLife, Lighter).some
+    val imgSrc: String                      = "images/items/True Samadhi Fire.png"
   }
 
   final case object EmeraldTablet extends Item with Armor {
-    val armorType: ArmorType         = ArmorType.Accessory
-    val rarity: ItemRarity           = ItemRarity.Legendary
-    val recipe: Option[(Item, Item)] = (ForceCore, FlowerOfFate).some
-    val imgSrc: String               = "images/items/Emerald Tablet.png"
+    val armorType: ArmorType with EquipType = ArmorType.Accessory
+    val rarity: ItemRarity                  = ItemRarity.Legendary
+    val recipe: Option[(Item, Item)]        = (ForceCore, FlowerOfFate).some
+    val imgSrc: String                      = "images/items/Emerald Tablet.png"
   }
 
   final case object Potato extends Item with Consumable {
