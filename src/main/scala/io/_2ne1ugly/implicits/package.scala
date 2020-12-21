@@ -2,6 +2,12 @@ package io._2ne1ugly
 
 import com.raquo.laminar.api.L._
 
+import scala.reflect.ClassTag
+
 package object implicits {
-  implicit class SignalOptionOpt[A](signal: Signal[Option[A]]) {}
+
+  implicit class listOpts[A](list: List[A]) {
+    def collectT[T: ClassTag]: List[T] =
+      list.collect { case t: T => t }
+  }
 }

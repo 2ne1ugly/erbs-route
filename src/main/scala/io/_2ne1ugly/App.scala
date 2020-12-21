@@ -5,6 +5,7 @@ import com.raquo.airstream.signal.Signal
 import com.raquo.laminar.api.L._
 import io._2ne1ugly.components.ItemSlot
 import io._2ne1ugly.erbs.data.{Accessory, Arm, Chest, EquipType, Head, Item, Leg, Weapon}
+import io._2ne1ugly.implicits._
 
 object App {
 
@@ -48,27 +49,27 @@ object App {
       cls := "grid grid-cols-3 grid-rows-2 gap-x-2 gap-y-1",
       child <-- weaponVar.signal.map(item =>
         ItemSlot(item.toRight(EquipType.Weapon))
-          .amend(onClick.mapTo((items: List[Item]) => items.collect { case item: Weapon => item }) --> itemFilterVar)
+          .amend(onClick.mapTo((items: List[Item]) => items.collectT[Weapon]) --> itemFilterVar)
       ),
       child <-- headVar.signal.map(item =>
         ItemSlot(item.toRight(EquipType.Head))
-          .amend(onClick.mapTo((items: List[Item]) => items.collect { case item: Head => item }) --> itemFilterVar)
+          .amend(onClick.mapTo((items: List[Item]) => items.collectT[Head]) --> itemFilterVar)
       ),
       child <-- chestVar.signal.map(item =>
         ItemSlot(item.toRight(EquipType.Chest))
-          .amend(onClick.mapTo((items: List[Item]) => items.collect { case item: Chest => item }) --> itemFilterVar)
+          .amend(onClick.mapTo((items: List[Item]) => items.collectT[Chest]) --> itemFilterVar)
       ),
       child <-- armVar.signal.map(item =>
         ItemSlot(item.toRight(EquipType.Arm))
-          .amend(onClick.mapTo((items: List[Item]) => items.collect { case item: Arm => item }) --> itemFilterVar)
+          .amend(onClick.mapTo((items: List[Item]) => items.collectT[Arm]) --> itemFilterVar)
       ),
       child <-- legVar.signal.map(item =>
         ItemSlot(item.toRight(EquipType.Leg))
-          .amend(onClick.mapTo((items: List[Item]) => items.collect { case item: Leg => item }) --> itemFilterVar)
+          .amend(onClick.mapTo((items: List[Item]) => items.collectT[Leg]) --> itemFilterVar)
       ),
       child <-- accessoryVar.signal.map(item =>
         ItemSlot(item.toRight(EquipType.Accessory))
-          .amend(onClick.mapTo((items: List[Item]) => items.collect { case item: Accessory => item }) --> itemFilterVar)
+          .amend(onClick.mapTo((items: List[Item]) => items.collectT[Accessory]) --> itemFilterVar)
       )
     )
 }

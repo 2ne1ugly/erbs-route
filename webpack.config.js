@@ -14,7 +14,7 @@ const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const scalaOutputPath = './target/scala-2.13';
 const staticPath = './src/main/resources';
 
-const devServerPort = 8080;
+const devServerPort = 7777;
 
 const devServer = {
   hot: true,
